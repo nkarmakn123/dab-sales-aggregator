@@ -5,8 +5,8 @@ steps:
 
   - script: |
       pip install --upgrade pip
-      pip install databricks-cli>=0.205 databricks-sdk
-    displayName: Install New Databricks CLI
+      pip install databricks-cli-v2 databricks-sdk
+    displayName: Install Databricks CLI v2
 
   - script: |
       mkdir -p ~/.databricks
@@ -16,4 +16,4 @@ steps:
 
       databricks bundle validate -t dev
       databricks bundle deploy -t dev
-    displayName: Validate & Deploy DAB Jobs
+    displayName: Validate & Deploy Databricks Asset Bundle
