@@ -17,11 +17,13 @@ stages:
             inputs:
               versionSpec: '3.x'
 
-          - script: pip install databricks-cli
-            displayName: Install Databricks CLI
+      - script: |
+          pip install --upgrade pip
+          pip install databricks-cli>=0.205 databricks-sdk
+          displayName: Install New Databricks CLI
 
-          - script: |
+      - script: |
               databricks configure --host "$(DATABRICKS_HOST)" --token "$(DATABRICKS_TOKEN)"
               databricks bundle validate -t dev
               databricks bundle deploy -t dev
-            displayName: Deploy DAB Jobs
+              displayName: Deploy DAB Jobs
