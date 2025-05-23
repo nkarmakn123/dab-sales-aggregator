@@ -1,0 +1,12 @@
+bundle:
+  name: sales-aggregator
+
+targets:
+  dev:
+    workspace:
+      host: https://adb-1337602447952487.7.azuredatabricks.net/
+      root_path: /Users/girish.ganguly1990@gmail.com/.bundle/sales-aggregator/dev
+    mode: development
+
+include:
+  - databricks/workflows/job_sales_aggregator.yml

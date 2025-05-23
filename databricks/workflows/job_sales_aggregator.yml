@@ -1,0 +1,15 @@
+name: daily-sales-aggregator
+
+tasks:
+  - task_key: aggregate-sales
+    description: Aggregate sales per product
+    spark_python_task:
+      python_file: src/aggregate_sales.py
+    job_cluster_key: shared_cluster
+
+job_clusters:
+  - job_cluster_key: shared_cluster
+    new_cluster:
+      spark_version: 12.2.x-scala2.12
+      node_type_id: Standard_DS3_v2
+      num_workers: 1
