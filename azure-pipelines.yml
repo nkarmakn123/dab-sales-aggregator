@@ -1,29 +1,19 @@
-trigger:
-  branches:
-    include:
-      - dev
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
 
-variables:
-  - group: databricks-secrets
+  - script: |
+      pip install --upgrade pip
+      pip install databricks-cli>=0.205 databricks-sdk
+    displayName: Install New Databricks CLI
 
-stages:
-  - stage: ValidateAndDeploy
-    jobs:
-      - job: DeployDatabricksJobs
-        pool:
-          vmImage: ubuntu-latest
-        steps:
-          - task: UsePythonVersion@0
-            inputs:
-              versionSpec: '3.x'
+  - script: |
+      mkdir -p ~/.databricks
+      echo "[default]" > ~/.databricks/config
+      echo "host = $(DATABRICKS_HOST)" >> ~/.databricks/config
+      echo "token = $(DATABRICKS_TOKEN)" >> ~/.databricks/config
 
-      - script: |
-          pip install --upgrade pip
-          pip install databricks-cli>=0.205 databricks-sdk
-          displayName: Install New Databricks CLI
-
-      - script: |
-              databricks configure --host "$(DATABRICKS_HOST)" --token "$(DATABRICKS_TOKEN)"
-              databricks bundle validate -t dev
-              databricks bundle deploy -t dev
-              displayName: Deploy DAB Jobs
+      databricks bundle validate -t dev
+      databricks bundle deploy -t dev
+    displayName: Validate & Deploy DAB Jobs
